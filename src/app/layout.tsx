@@ -2,9 +2,11 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/space-grotesk";
 import "./globals.css";
+import "@/components/ui/glass-panel.css";
 import { CloudflareWebAnalytics } from "@/components/analytics/cloudflare-web-analytics";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { LiquidGlassFilter } from "@/components/ui/glass-panel";
 import { site } from "@/lib/site";
 
 // Next.js turns this object into the default <title> and description tags.
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08150f",
+  themeColor: "#020b05",
   colorScheme: "dark light",
 };
 
@@ -107,6 +109,7 @@ export default function RootLayout({
           }}
           type="application/ld+json"
         />
+        <LiquidGlassFilter />
         {/* The target is each page's <main id="main-content"> element. */}
         <a className="skip-link" href="#main-content">
           Skip to main content

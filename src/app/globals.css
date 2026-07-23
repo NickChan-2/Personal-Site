@@ -14,20 +14,20 @@
   --ink-850: #0b1b13;
   --ink-800: #10231a;
   --ink-700: #1c3529;
-  --paper: #f4f1e9;
-  --paper-deep: #e8e3d7;
+  --paper: #020b05;
+  --paper-deep: #06140b;
   --white: #fffdf8;
-  --slate: #526159;
-  --slate-dark: #26332d;
+  --slate: rgba(255, 255, 255, 0.58);
+  --slate-dark: #fffdf8;
   --green: #65d98c;
   --green-strong: #37c975;
-  --green-deep: #167247;
+  --green-deep: #65d98c;
   --orange: #ff6a00;
   --orange-soft: #ffb274;
   --line-dark: rgba(255, 255, 255, 0.12);
-  --line-light: rgba(11, 27, 19, 0.14);
+  --line-light: rgba(255, 255, 255, 0.12);
   --shadow-dark: 0 28px 90px rgba(0, 0, 0, 0.3);
-  --shadow-light: 0 25px 70px rgba(35, 48, 40, 0.11);
+  --shadow-light: 0 25px 70px rgba(0, 0, 0, 0.28);
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 30px;
@@ -100,7 +100,11 @@ a {
 .section-light {
   position: relative;
   color: var(--slate-dark);
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(101, 217, 140, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101, 217, 140, 0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
 }
 
 .skip-link {
@@ -135,6 +139,7 @@ a {
   top: 0;
   left: 0;
   width: 100%;
+  padding-top: 18px;
   color: var(--white);
 }
 
@@ -142,10 +147,11 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(100% - 48px, 1320px);
-  height: 92px;
+  width: min(100% - 48px, 1400px);
+  height: 72px;
+  padding: 0 12px 0 16px;
   margin-inline: auto;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
 }
 
 .brand-mark {
@@ -468,68 +474,63 @@ a {
 }
 
 .glass-panel--light {
-  color: var(--slate-dark);
+  color: var(--white);
 }
 
-/* On light backgrounds the dark-tone recipe blows out: no brightness boost,
-   softer rims, and a much lighter under-shadow ring that would otherwise show
-   through the clearer glass. */
+/* Every route now uses the same dark glass material as the homepage. The light
+   tone remains as a semantic component option, but no longer changes the site
+   back to a pale card treatment. */
 .glass-panel--light .glass-panel__surface {
   background: linear-gradient(
-    -75deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 255, 255, 0.35),
-    rgba(255, 255, 255, 0.12)
+    145deg,
+    rgba(255, 255, 255, 0.035),
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.025)
   );
   box-shadow:
-    inset 0 3px 3px rgba(11, 27, 19, 0.05),
-    inset 0 -4px 5px rgba(255, 255, 255, 0.8),
-    0 6px 4px -3px rgba(35, 48, 40, 0.16),
-    0 0 3px 6px inset rgba(255, 255, 255, 0.5),
+    inset 0 4px 4px rgba(0, 0, 0, 0.06),
+    inset 0 -4px 5px rgba(255, 255, 255, 0.38),
+    0 8px 4px -4px rgba(0, 0, 0, 0.25),
+    0 0 4px 7px inset rgba(255, 255, 255, 0.18),
     0 0 0 0 rgba(255, 255, 255, 1);
-  /* Light panels frost harder than the dark ones: the visible difference
-     between the sharp glow outside the card and its diffused version through
-     the surface is what sells the glass on a pale background. */
-  -webkit-backdrop-filter: blur(18px) saturate(150%) brightness(1.04);
-  backdrop-filter: blur(18px) saturate(150%) brightness(1.04);
+  -webkit-backdrop-filter: blur(14px) saturate(128%) brightness(1.06);
+  backdrop-filter: blur(14px) saturate(128%) brightness(1.06);
 }
 
 .glass-panel--light:hover .glass-panel__surface {
-  -webkit-backdrop-filter: blur(13px) saturate(125%) brightness(1.03);
-  backdrop-filter: blur(13px) saturate(125%) brightness(1.03);
+  -webkit-backdrop-filter: blur(10px) saturate(132%) brightness(1.06);
+  backdrop-filter: blur(10px) saturate(132%) brightness(1.06);
 }
 
 .glass-panel--light .glass-panel__surface::before {
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.28),
-    rgba(255, 255, 255, 0.07) 20%,
-    transparent 40%
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02) 18%,
+    transparent 38%
   );
 }
 
-/* The pen's half-black conic segments suit a small pill; stretched along a
-   wide light panel they smear into a dark streak, so fade them right down. */
 .glass-panel--light .glass-panel__surface::after {
   background:
     conic-gradient(
       from var(--angle-1) at 50% 50%,
-      rgba(35, 48, 40, 0.28),
-      rgba(35, 48, 40, 0) 5% 40%,
-      rgba(35, 48, 40, 0.28) 50%,
-      rgba(35, 48, 40, 0) 60% 95%,
-      rgba(35, 48, 40, 0.28)
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0) 5% 40%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0) 60% 95%,
+      rgba(0, 0, 0, 0.5)
     ),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
   box-shadow: inset 0 0 0 calc(var(--glass-border-width) / 2)
-    rgba(255, 255, 255, 0.7);
+    rgba(255, 255, 255, 0.5);
 }
 
 .glass-panel--light .glass-panel__shadow::after {
   background: linear-gradient(
     180deg,
-    rgba(35, 48, 40, 0.16),
-    rgba(35, 48, 40, 0.07)
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.1)
   );
 }
 
@@ -593,15 +594,15 @@ a {
 }
 
 .button-link--light {
-  color: var(--ink-900);
-  background: transparent;
-  border-color: rgba(8, 21, 15, 0.28);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--line-dark);
 }
 
 .button-link--light:hover {
-  color: var(--white);
-  background: var(--ink-900);
-  border-color: var(--ink-900);
+  color: var(--ink-950);
+  background: var(--green);
+  border-color: var(--green);
 }
 
 .section-heading {
@@ -3494,6 +3495,240 @@ a {
   color: rgba(255, 255, 255, 0.6);
 }
 
+/* Unified site theme
+   Every route now continues the homepage's near-black technical canvas,
+   concentrated corner lighting, ivory type, and dark glass surfaces. */
+:is(
+    .page-hero,
+    .about-hero,
+    .inquiry-page,
+    .legal-page,
+    .case-study-hero,
+    .error-page,
+    .not-found
+  ) {
+  background:
+    radial-gradient(
+      ellipse 43% 55% at 104% -8%,
+      rgba(102, 190, 121, 0.9) 0%,
+      rgba(48, 130, 69, 0.56) 22%,
+      rgba(14, 68, 31, 0.25) 45%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 34% 40% at -5% 102%,
+      rgba(255, 91, 0, 0.9) 0%,
+      rgba(211, 59, 0, 0.68) 22%,
+      rgba(117, 34, 0, 0.36) 47%,
+      transparent 74%
+    ),
+    #020b05;
+}
+
+.page-hero::after,
+.about-hero__glow,
+.inquiry-page__glow {
+  display: none;
+}
+
+:is(
+    .services-section,
+    .managed-care-section,
+    .principles-section,
+    .contact-cta
+  ) {
+  background-color: #020b05;
+  background-image:
+    linear-gradient(rgba(101, 217, 140, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(101, 217, 140, 0.035) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+.section-light .technical-label--light,
+.section-light .section-heading--light .technical-label {
+  color: var(--green);
+}
+
+.section-light .section-heading :is(h1, h2) span {
+  color: var(--green);
+}
+
+.section-light .section-heading > p,
+.project-card__content > p,
+.process-grid p,
+.about-teaser__content > p,
+.service-detail-grid p,
+.expansion-grid p,
+.about-story__body p,
+.experience-grid p,
+.partnership-grid p,
+.case-copy {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.project-card__meta span,
+.project-card__services span {
+  color: var(--green);
+  background: rgba(101, 217, 140, 0.07);
+  border-color: rgba(101, 217, 140, 0.18);
+}
+
+.project-card__meta span + span {
+  color: var(--orange-soft);
+  background: rgba(255, 106, 0, 0.08);
+  border-color: rgba(255, 106, 0, 0.2);
+}
+
+.project-card__services span {
+  color: rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255, 0.025);
+  border-color: var(--line-dark);
+}
+
+.project-card__link,
+.text-link,
+.process-grid__number,
+.expansion-grid__index,
+.project-fact-grid span,
+.insight-panel > svg,
+.insight-panel span,
+.feature-list svg {
+  color: var(--green);
+}
+
+.project-card h3 a:hover,
+.text-link:hover {
+  color: #8ee4aa;
+}
+
+.process-grid {
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-md);
+}
+
+.process-grid li {
+  border-color: var(--line-dark);
+}
+
+.about-teaser__grid,
+.expansion-grid,
+.partnership-grid {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    ),
+    rgba(4, 16, 8, 0.58);
+  border: 1px solid var(--line-dark);
+  box-shadow: var(--shadow-dark);
+  backdrop-filter: blur(14px);
+}
+
+.about-teaser__grid {
+  background-color: var(--paper-deep);
+}
+
+.credential-row > div {
+  color: rgba(255, 255, 255, 0.74);
+  background: rgba(255, 255, 255, 0.045);
+  border-color: var(--line-dark);
+}
+
+.credential-row svg {
+  color: var(--green);
+}
+
+.service-detail-grid {
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-md);
+}
+
+.service-detail-grid article {
+  border-color: var(--line-dark);
+}
+
+.service-detail-grid article:hover,
+.experience-grid article:hover {
+  background: rgba(101, 217, 140, 0.045);
+}
+
+.service-detail-grid__icon,
+.experience-grid__icon,
+.partnership-grid__icon {
+  color: var(--green);
+  background: rgba(101, 217, 140, 0.07);
+  border-color: rgba(101, 217, 140, 0.18);
+}
+
+.expansion-grid,
+.partnership-grid {
+  padding: clamp(35px, 5vw, 70px);
+  border-radius: var(--radius-lg);
+}
+
+.experience-grid article {
+  color: var(--white);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.015)
+    ),
+    rgba(4, 16, 8, 0.62);
+  border-color: var(--line-dark);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.18);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.experience-grid article:hover {
+  border-color: rgba(101, 217, 140, 0.22);
+  transform: translateY(-3px);
+}
+
+.experience-grid article > span {
+  color: var(--green);
+}
+
+.about-story__body .about-story__lead,
+.case-strong {
+  color: var(--white);
+}
+
+.about-story,
+.experience-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.partnership-grid {
+  align-items: center;
+}
+
+.project-fact-grid,
+.feature-list {
+  border-color: var(--line-dark);
+}
+
+.project-fact-grid > div + div,
+.feature-list > div {
+  border-color: var(--line-dark);
+}
+
+.case-study-body {
+  background-color: #020b05;
+}
+
+.site-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Responsive */
 
 @media (max-width: 1060px) {
@@ -3560,8 +3795,14 @@ a {
     width: min(100% - 32px, 1220px);
   }
 
+  .site-header {
+    padding-top: 12px;
+  }
+
   .site-header__inner {
-    height: 78px;
+    height: 62px;
+    padding: 0 9px 0 12px;
+    border-radius: 16px;
   }
 
   .desktop-nav {

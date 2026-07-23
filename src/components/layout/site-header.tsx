@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GlassPanel } from "@/components/ui/glass-panel";
 
 const navItems = [
   { href: "/work", label: "Work" },
@@ -9,7 +10,7 @@ const navItems = [
 export function SiteHeader() {
   return (
     <header className="site-header">
-      <div className="site-header__inner">
+      <GlassPanel className="site-header__inner liquid-glass-nav">
         <Link className="brand-mark" href="/">
           <span className="brand-mark__monogram" aria-hidden="true">
             NC
@@ -44,7 +45,7 @@ export function SiteHeader() {
             </Link>
           </nav>
         </details>
-      </div>
+      </GlassPanel>
     </header>
   );
 }

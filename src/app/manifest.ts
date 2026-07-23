@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Modern, fully managed websites for small businesses.",
     start_url: "/",
     display: "standalone",
-    background_color: "#08150f",
-    theme_color: "#08150f",
+    background_color: "#020b05",
+    theme_color: "#020b05",
     icons: [
       {
         src: "/icon.svg",
