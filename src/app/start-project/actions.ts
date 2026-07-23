@@ -62,7 +62,7 @@ export async function submitInquiry(
     return {
       id,
       status: "success",
-      message: "Thanks—your inquiry has been received.",
+      message: "Thanks! Your inquiry has been received.",
     };
   }
 
@@ -126,7 +126,7 @@ export async function submitInquiry(
     id,
     status: "success",
     message:
-      "Your inquiry is in. I’ll review the details and reply within two business days.",
+      "Your inquiry is in. I'll review the details and reply within two business days.",
     firstName: result.data.name.split(/\s+/)[0],
     bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL,
   };

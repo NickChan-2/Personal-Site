@@ -83,7 +83,7 @@ export default function HomePage() {
             </p>
             <p className="hero__intro">
               I design, build, host, and maintain dependable websites for
-              small businesses—from the first idea through every update after
+              small businesses from the first idea through every update after
               launch.
             </p>
             <div className="hero__actions">
@@ -153,7 +153,7 @@ export default function HomePage() {
                 <span> Every layer.</span>
               </>
             }
-            copy="You focus on running the business. I take ownership of the website—from the structure customers see to the systems keeping it online."
+            copy="You focus on running the business. I take ownership of the website from the structure customers see to the systems keeping it online."
             tone="dark"
           />
 
@@ -230,7 +230,7 @@ export default function HomePage() {
             <TechnicalLabel tone="light">The person behind the work</TechnicalLabel>
             <h2>Technical ownership with a human point of view.</h2>
             <p>
-              I’m Nick Chan, a computer science student, Daktronics intern, and
+              I'm Nick Chan, a computer science student, Daktronics intern, and
               independent developer. I care about making technology useful,
               understandable, and dependable for the people relying on it.
             </p>

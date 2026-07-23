@@ -61,7 +61,7 @@ export default function ServicesPage() {
                 <span> without another system to manage.</span>
               </>
             }
-            copy="I handle the strategy, design, build, hosting, and ongoing updates—so your website stays useful after launch."
+            copy="I handle the strategy, design, build, hosting, and ongoing updates, so your website stays useful after launch."
             tone="dark"
           />
         </div>

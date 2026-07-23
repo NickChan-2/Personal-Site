@@ -9,13 +9,13 @@
 
 :root {
   /* Design tokens: changing one of these updates every class that uses it. */
-  --ink-950: #020a05;
-  --ink-900: #041008;
-  --ink-850: #0b1b13;
-  --ink-800: #10231a;
-  --ink-700: #1c3529;
-  --paper: #020b05;
-  --paper-deep: #06140b;
+  --ink-950: #04140d;
+  --ink-900: #071e14;
+  --ink-850: #0b2a1c;
+  --ink-800: #103725;
+  --ink-700: #1a4a34;
+  --paper: #0a281b;
+  --paper-deep: #071f15;
   --white: #fffdf8;
   --slate: rgba(255, 255, 255, 0.58);
   --slate-dark: #fffdf8;
@@ -94,7 +94,20 @@ a {
   position: relative;
   overflow: hidden;
   color: var(--white);
-  background: var(--ink-900);
+  background-color: var(--ink-900);
+  background-image:
+    radial-gradient(
+      ellipse 58% 42% at 92% 0%,
+      rgba(101, 217, 140, 0.17),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 48% 36% at 4% 100%,
+      rgba(255, 106, 0, 0.1),
+      transparent 72%
+    ),
+    linear-gradient(125deg, rgba(255, 255, 255, 0.025), transparent 44%);
+  background-repeat: no-repeat;
 }
 
 .section-light {
@@ -102,9 +115,20 @@ a {
   color: var(--slate-dark);
   background-color: var(--paper);
   background-image:
-    linear-gradient(rgba(101, 217, 140, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(101, 217, 140, 0.035) 1px, transparent 1px);
-  background-size: 52px 52px;
+    radial-gradient(
+      ellipse 50% 34% at 88% 12%,
+      rgba(101, 217, 140, 0.15),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 42% 32% at 5% 88%,
+      rgba(255, 106, 0, 0.09),
+      transparent 74%
+    ),
+    linear-gradient(rgba(134, 234, 168, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(134, 234, 168, 0.055) 1px, transparent 1px);
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  background-size: auto, auto, 52px 52px, 52px 52px;
 }
 
 .skip-link {
@@ -178,24 +202,89 @@ a {
 }
 
 .desktop-nav {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 34px;
+  isolation: isolate;
+  gap: 6px;
   color: rgba(255, 255, 255, 0.76);
   font-size: 0.82rem;
   font-weight: 700;
 }
 
 .desktop-nav > a:not(.nav-cta) {
-  transition: color 160ms ease;
+  display: inline-flex;
+  position: relative;
+  z-index: 2;
+  min-height: 40px;
+  padding-inline: 14px;
+  align-items: center;
+  border-radius: 999px;
+  transition: color 180ms ease;
 }
 
-.desktop-nav > a:not(.nav-cta):hover {
+.desktop-nav > a:not(.nav-cta):hover,
+.desktop-nav > a[aria-current="page"] {
   color: var(--white);
+}
+
+.site-header__active-glass {
+  --nav-active-height: 0px;
+  --nav-active-width: 0px;
+  --nav-active-x: 0px;
+  --nav-active-y: 0px;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: var(--nav-active-width);
+  height: var(--nav-active-height);
+  background: linear-gradient(
+    108deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.045) 42%,
+    rgba(101, 217, 140, 0.12)
+  );
+  border: 1px solid rgba(229, 255, 237, 0.38);
+  border-radius: 999px;
+  box-shadow:
+    0 9px 24px rgba(0, 0, 0, 0.2),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.58),
+    inset -1px -1px 2px rgba(101, 217, 140, 0.15);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(var(--nav-active-x), var(--nav-active-y), 0);
+  -webkit-backdrop-filter: brightness(1.12) saturate(1.2) blur(5px);
+  backdrop-filter: brightness(1.12) saturate(1.2) blur(5px);
+  transition:
+    height 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-header__active-glass::after {
+  position: absolute;
+  inset: 1px 16% auto;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.82),
+    rgba(101, 217, 140, 0.52),
+    transparent
+  );
+}
+
+.site-header__active-glass[data-visible="true"] {
+  opacity: 1;
 }
 
 .nav-cta {
   display: inline-flex;
+  position: relative;
+  z-index: 2;
   align-items: center;
   min-height: 43px;
   padding: 0 18px;
@@ -207,7 +296,18 @@ a {
   transition:
     background 160ms ease,
     border-color 160ms ease,
+    color 160ms ease,
     transform 160ms ease;
+}
+
+.desktop-nav .nav-cta {
+  margin-left: 12px;
+}
+
+.desktop-nav .nav-cta[aria-current="page"] {
+  color: var(--white);
+  background: transparent;
+  border-color: transparent;
 }
 
 .nav-cta:hover {
@@ -263,6 +363,12 @@ a {
   padding: 12px;
   border-radius: 8px;
   font-weight: 700;
+}
+
+.mobile-nav__panel > a[aria-current="page"]:not(.nav-cta) {
+  color: var(--white);
+  background: rgba(101, 217, 140, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(101, 217, 140, 0.2);
 }
 
 .mobile-nav__panel .nav-cta {
@@ -464,7 +570,9 @@ a {
 }
 
 .glass-panel
-  > :not(.glass-panel__shadow):not(.glass-panel__surface) {
+  > :not(.glass-panel__shadow):not(.glass-panel__surface):not(
+    .site-header__active-glass
+  ) {
   position: relative;
   z-index: 3;
 }
@@ -537,6 +645,12 @@ a {
 @media (hover: none) and (pointer: coarse) {
   .glass-panel__surface::after {
     --angle-1: -75deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header__active-glass {
+    transition: opacity 120ms ease;
   }
 }
 
@@ -669,21 +783,27 @@ a {
   min-height: 100svh;
   padding: 120px 0 60px;
   background:
-    radial-gradient(
-      ellipse 43% 55% at 104% -8%,
-      rgba(102, 190, 121, 0.95) 0%,
-      rgba(48, 130, 69, 0.63) 22%,
-      rgba(14, 68, 31, 0.3) 45%,
-      transparent 72%
+    linear-gradient(
+      118deg,
+      transparent 24%,
+      rgba(136, 242, 171, 0.065) 48%,
+      transparent 67%
     ),
     radial-gradient(
-      ellipse 38% 44% at -5% 92%,
-      rgba(255, 91, 0, 1) 0%,
-      rgba(211, 59, 0, 0.87) 22%,
-      rgba(117, 34, 0, 0.52) 47%,
-      transparent 74%
+      ellipse 62% 68% at 108% -10%,
+      rgba(111, 224, 145, 0.82) 0%,
+      rgba(48, 148, 81, 0.55) 28%,
+      rgba(15, 82, 43, 0.28) 52%,
+      transparent 78%
     ),
-    #020b05;
+    radial-gradient(
+      ellipse 48% 52% at -8% 96%,
+      rgba(255, 106, 0, 0.82) 0%,
+      rgba(201, 67, 6, 0.62) 27%,
+      rgba(113, 45, 13, 0.34) 52%,
+      transparent 78%
+    ),
+    linear-gradient(145deg, #061a11, #0a2a1c 58%, #06180f);
   isolation: isolate;
 }
 
@@ -692,10 +812,10 @@ a {
   position: absolute;
   z-index: -2;
   inset: 0;
-  opacity: 0.22;
+  opacity: 0.46;
   background-image:
-    linear-gradient(rgba(101, 217, 140, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(101, 217, 140, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(143, 239, 176, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 239, 176, 0.12) 1px, transparent 1px);
   background-size: 52px 52px;
   mask-image: linear-gradient(to bottom, black, transparent 94%);
 }
@@ -833,7 +953,8 @@ a {
 
 .hero-stack {
   position: relative;
-  top: -45px;
+  /* Keep the artwork below the floating navigation on desktop. */
+  top: 30px;
   width: min(100%, 560px);
   min-height: 500px;
   isolation: isolate;
@@ -3496,8 +3617,8 @@ a {
 }
 
 /* Unified site theme
-   Every route now continues the homepage's near-black technical canvas,
-   concentrated corner lighting, ivory type, and dark glass surfaces. */
+   Every route continues the illuminated forest canvas so the shared glass
+   has gradients, grid lines, and colored light to refract. */
 :is(
     .page-hero,
     .about-hero,
@@ -3508,21 +3629,27 @@ a {
     .not-found
   ) {
   background:
-    radial-gradient(
-      ellipse 43% 55% at 104% -8%,
-      rgba(102, 190, 121, 0.9) 0%,
-      rgba(48, 130, 69, 0.56) 22%,
-      rgba(14, 68, 31, 0.25) 45%,
-      transparent 72%
+    linear-gradient(
+      118deg,
+      transparent 24%,
+      rgba(136, 242, 171, 0.06) 48%,
+      transparent 67%
     ),
     radial-gradient(
-      ellipse 34% 40% at -5% 102%,
-      rgba(255, 91, 0, 0.9) 0%,
-      rgba(211, 59, 0, 0.68) 22%,
-      rgba(117, 34, 0, 0.36) 47%,
-      transparent 74%
+      ellipse 62% 68% at 108% -10%,
+      rgba(111, 224, 145, 0.78) 0%,
+      rgba(48, 148, 81, 0.5) 28%,
+      rgba(15, 82, 43, 0.25) 52%,
+      transparent 78%
     ),
-    #020b05;
+    radial-gradient(
+      ellipse 46% 48% at -8% 102%,
+      rgba(255, 106, 0, 0.72) 0%,
+      rgba(201, 67, 6, 0.52) 27%,
+      rgba(113, 45, 13, 0.28) 52%,
+      transparent 78%
+    ),
+    linear-gradient(145deg, #061a11, #0a2a1c 58%, #06180f);
 }
 
 .page-hero::after,
@@ -3537,11 +3664,22 @@ a {
     .principles-section,
     .contact-cta
   ) {
-  background-color: #020b05;
+  background-color: var(--ink-900);
   background-image:
-    linear-gradient(rgba(101, 217, 140, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(101, 217, 140, 0.035) 1px, transparent 1px);
-  background-size: 52px 52px;
+    radial-gradient(
+      circle at 18% 58%,
+      rgba(101, 217, 140, 0.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 84% 76%,
+      rgba(255, 106, 0, 0.11),
+      transparent 26%
+    ),
+    linear-gradient(rgba(134, 234, 168, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(134, 234, 168, 0.055) 1px, transparent 1px);
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  background-size: auto, auto, 52px 52px, 52px 52px;
 }
 
 .section-light .technical-label--light,
@@ -3722,7 +3860,7 @@ a {
 }
 
 .case-study-body {
-  background-color: #020b05;
+  background-color: var(--paper);
 }
 
 .site-footer {

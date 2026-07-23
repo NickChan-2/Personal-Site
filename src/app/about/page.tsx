@@ -29,7 +29,7 @@ const experience = [
     icon: GraduationCap,
     label: "Technical foundation",
     title: "Senior computer science student at SDSU",
-    copy: "My education gives me the fundamentals to reason through systems—not just assemble a page that happens to look good.",
+    copy: "My education gives me the fundamentals to reason through systems, not just assemble a page that happens to look good.",
   },
   {
     icon: Layers3,
@@ -65,13 +65,13 @@ export default function AboutPage() {
         <div className="about-hero__glow" aria-hidden="true" />
         <div className="site-shell about-hero__inner">
           <div className="about-hero__copy">
-            <TechnicalLabel>About Nick</TechnicalLabel>
+            <TechnicalLabel>About Me</TechnicalLabel>
             <h1>
               A developer who stays
               <span> close to the work.</span>
             </h1>
             <p>
-              I’m Nick Chan—an independent developer, Daktronics intern, and
+              I'm an independent developer, Daktronics intern, and
               senior computer science student at South Dakota State University.
               I build websites for small businesses that want one person to
               understand the goal and own the technical details.
@@ -84,11 +84,11 @@ export default function AboutPage() {
             </div>
             <div className="about-identity-card__meta">
               <span>Nick Chan</span>
-              <strong>Developer · technology partner</strong>
+              <strong>Developer · Technology Partner</strong>
             </div>
             <div className="about-identity-card__status">
               <span />
-              Based in Brookings, South Dakota
+              Based in Sioux Falls, South Dakota
             </div>
           </GlassPanel>
         </div>
@@ -114,7 +114,7 @@ export default function AboutPage() {
             </p>
             <p>
               But getting there often means coordinating a designer, developer,
-              host, and support contact—or trying to manage all of it alone. I
+              host, and support contact or trying to manage all of it alone. I
               want to make that simpler.
             </p>
             <p>
@@ -160,7 +160,7 @@ export default function AboutPage() {
             <TechnicalLabel>Working principles</TechnicalLabel>
             <h2>How I want the partnership to feel.</h2>
             <p>
-              Direct, thoughtful, and dependable—from the first idea through
+              Direct, thoughtful, and dependable from the first idea through
               the tenth update.
             </p>
           </div>

@@ -1,4 +1,4 @@
-const fallbackUrl = "http://localhost:3000";
+const fallbackUrl = "http://localhost:3001";
 
 export const site = {
   name: "Nick Chan",
