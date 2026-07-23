@@ -72,15 +72,19 @@ export default function HomePage() {
 
         <div className="site-shell hero__inner">
           <div className="hero__content">
-            <TechnicalLabel>Independent web developer</TechnicalLabel>
-            <h1>
-              Modern websites.
-              <span>Fully managed.</span>
-            </h1>
-            <p>
-              I design, build, host, and maintain websites for small
-              businesses—giving you one technology partner from first idea to
-              ongoing updates.
+            <h1>Nick Chan</h1>
+            <p className="hero__promise">
+              Modern websites. <span>Fully managed.</span>
+            </p>
+            <p className="hero__role">
+              Independent developer
+              <span aria-hidden="true">•</span>
+              technology partner
+            </p>
+            <p className="hero__intro">
+              I design, build, host, and maintain dependable websites for
+              small businesses—from the first idea through every update after
+              launch.
             </p>
             <div className="hero__actions">
               <ButtonLink href="/start-project">Start a project</ButtonLink>

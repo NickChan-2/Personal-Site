@@ -54,6 +54,7 @@ export default function ServicesPage() {
         <div className="site-shell page-hero__inner">
           <SectionHeading
             eyebrow="Services"
+            level={1}
             title={
               <>
                 A better website,

@@ -32,7 +32,9 @@ export function InsightPanel({
       <CircleDot aria-hidden="true" size={18} />
       <div>
         <span>{label}</span>
-        <p>{children}</p>
+        {/* MDX wraps prose children in its own <p>. A div prevents invalid
+            paragraph-within-paragraph markup and the hydration mismatch it causes. */}
+        <div className="insight-panel__copy">{children}</div>
       </div>
     </GlassPanel>
   );

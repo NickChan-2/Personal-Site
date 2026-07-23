@@ -10,7 +10,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link className="brand-mark" href="/" aria-label="Nick Chan, home">
+        <Link className="brand-mark" href="/">
           <span className="brand-mark__monogram" aria-hidden="true">
             NC
           </span>

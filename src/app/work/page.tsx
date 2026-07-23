@@ -18,6 +18,7 @@ export default function WorkPage() {
         <div className="site-shell page-hero__inner">
           <SectionHeading
             eyebrow="Selected work"
+            level={1}
             title={
               <>
                 Built around the business,

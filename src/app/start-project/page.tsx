@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import {
-  ArrowRight,
-  Building2,
-  Check,
-  CircleHelp,
-  ListChecks,
-  Send,
-} from "lucide-react";
+import { Check } from "lucide-react";
+import { InquiryForm } from "@/components/inquiry/inquiry-form";
 import { GlassPanel } from "@/components/ui/glass-panel";
 import { TechnicalLabel } from "@/components/ui/technical-label";
 
@@ -15,27 +9,6 @@ export const metadata: Metadata = {
   description:
     "Tell Nick Chan about your business, your goals, and the website you need.",
 };
-
-const steps = [
-  {
-    number: "01",
-    icon: Building2,
-    title: "Your business",
-    copy: "A little context about what you do and who you help.",
-  },
-  {
-    number: "02",
-    icon: ListChecks,
-    title: "The project",
-    copy: "What you want the website to accomplish and what exists today.",
-  },
-  {
-    number: "03",
-    icon: CircleHelp,
-    title: "The details",
-    copy: "Timing, useful links, and anything else I should understand.",
-  },
-];
 
 export default function StartProjectPage() {
   return (
@@ -66,53 +39,17 @@ export default function StartProjectPage() {
               </span>
               <span>
                 <Check aria-hidden="true" size={16} />
-                You will hear directly from me
+                A personal reply within two business days
               </span>
             </div>
           </div>
 
-          {/* Phase 4 only defines the inquiry structure. This deliberately
-              remains non-submitting until Phase 5 adds validation and email. */}
           <GlassPanel as="section" className="inquiry-card">
-            <div className="inquiry-card__top">
-              <div>
-                <span>Project fit</span>
-                <strong>A quick three-step conversation</strong>
-              </div>
-              <span className="inquiry-card__status">Phase 5 connection</span>
-            </div>
-
-            <ol className="inquiry-step-list">
-              {steps.map(({ copy, icon: Icon, number, title }) => (
-                <li key={number}>
-                  <span className="inquiry-step-list__number">{number}</span>
-                  <div className="inquiry-step-list__icon">
-                    <Icon aria-hidden="true" size={19} />
-                  </div>
-                  <div>
-                    <h2>{title}</h2>
-                    <p>{copy}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            <div className="inquiry-card__coming-soon">
-              <Send aria-hidden="true" size={19} />
-              <div>
-                <strong>The guided inquiry is the next build phase.</strong>
-                <p>
-                  Its email delivery, validation, privacy language, and success
-                  states will be connected together before this page accepts
-                  submissions.
-                </p>
-              </div>
-            </div>
-
-            <button className="inquiry-preview-button" disabled type="button">
-              Open inquiry
-              <ArrowRight aria-hidden="true" size={17} />
-            </button>
+            <InquiryForm
+              turnstileSiteKey={
+                process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+              }
+            />
           </GlassPanel>
         </div>
       </section>

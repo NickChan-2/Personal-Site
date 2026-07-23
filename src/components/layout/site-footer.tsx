@@ -37,7 +37,9 @@ export function SiteFooter() {
 
       <div className="site-shell site-footer__base">
         <span>© {new Date().getFullYear()} Nick Chan</span>
-        <span>Designed to stay useful.</span>
+        <span>
+          Designed to stay useful. <Link href="/privacy">Privacy</Link>
+        </span>
       </div>
     </footer>
   );

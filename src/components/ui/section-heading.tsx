@@ -7,6 +7,7 @@ type SectionHeadingProps = {
   copy?: string;
   align?: "left" | "center";
   tone?: "dark" | "light";
+  level?: 1 | 2;
 };
 
 export function SectionHeading({
@@ -15,7 +16,10 @@ export function SectionHeading({
   copy,
   align = "left",
   tone = "light",
+  level = 2,
 }: SectionHeadingProps) {
+  const Heading = level === 1 ? "h1" : "h2";
+
   return (
     <div
       className={`section-heading section-heading--${align} section-heading--${tone}`}
@@ -23,7 +27,7 @@ export function SectionHeading({
       <TechnicalLabel tone={tone === "dark" ? "dark" : "light"}>
         {eyebrow}
       </TechnicalLabel>
-      <h2>{title}</h2>
+      <Heading>{title}</Heading>
       {copy ? <p>{copy}</p> : null}
     </div>
   );

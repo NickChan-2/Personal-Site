@@ -1,66 +1,93 @@
-import {
-  Braces,
-  Check,
-  Cloud,
-  PenTool,
-  RefreshCw,
-  ShieldCheck,
-} from "lucide-react";
-import { GlassPanel } from "@/components/ui/glass-panel";
+"use client";
 
-const services = [
-  { icon: PenTool, label: "Design" },
-  { icon: Braces, label: "Development" },
-  { icon: Cloud, label: "Hosting" },
-  { icon: RefreshCw, label: "Updates" },
-];
+import { Code2, Gauge, TrendingUp } from "lucide-react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 
 export function HeroPanelStack() {
-  return (
-    <div className="hero-stack" aria-label="Fully managed website services">
-      <GlassPanel className="hero-stack__service-card">
-        <div className="panel-topline">
-          <span>Full service system</span>
-          <span>01 / 03</span>
-        </div>
-        <h2>One partner. Every layer.</h2>
-        <div className="service-chip-grid">
-          {services.map(({ icon: Icon, label }) => (
-            <div className="service-chip" key={label}>
-              <Icon aria-hidden="true" size={16} strokeWidth={1.6} />
-              <span>{label}</span>
-            </div>
-          ))}
-        </div>
-      </GlassPanel>
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const scrollOffset = useTransform(scrollYProgress, [0, 0.35], [0, 34]);
 
-      <GlassPanel className="hero-stack__availability-card">
-        <div className="availability-orbit" aria-hidden="true">
+  return (
+    <motion.div
+      animate={{ opacity: 1, y: 0 }}
+      aria-label="Fully managed website services"
+      className="hero-stack"
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+      style={{ y: shouldReduceMotion ? 0 : scrollOffset }}
+      transition={{ duration: 0.65, ease: [0.25, 1, 0.5, 1] }}
+    >
+      {/* The two rear panes make the illustration read as a layered website
+          system while the front pane carries the legible interface details. */}
+      <div className="hero-stack__pane hero-stack__pane--back" aria-hidden="true">
+        <div className="hero-stack__back-lines">
+          <span />
+          <span />
           <span />
         </div>
-        <div>
-          <span className="availability-copy">Availability</span>
-          <strong>Open for select projects</strong>
-        </div>
-      </GlassPanel>
+        <div className="hero-stack__back-grid" />
+      </div>
 
-      <GlassPanel className="hero-stack__care-card">
-        <div className="panel-icon">
-          <ShieldCheck aria-hidden="true" size={22} strokeWidth={1.5} />
+      <div
+        className="hero-stack__pane hero-stack__pane--middle"
+        aria-hidden="true"
+      >
+        <div className="hero-stack__back-lines">
+          <span />
+          <span />
         </div>
-        <div>
-          <span className="availability-copy">Managed care</span>
-          <strong>Launch is the beginning.</strong>
+        <div className="hero-stack__signal">
+          <span />
         </div>
-        <ul>
-          <li>
-            <Check aria-hidden="true" size={14} /> Hosting & monitoring
-          </li>
-          <li>
-            <Check aria-hidden="true" size={14} /> Routine content updates
-          </li>
-        </ul>
-      </GlassPanel>
-    </div>
+      </div>
+
+      <div className="hero-stack__pane hero-stack__pane--front">
+        <div className="hero-stack__toolbar">
+          <span className="hero-stack__mark">NC</span>
+          <div className="hero-stack__toolbar-lines" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="hero-stack__menu" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+
+        <div className="hero-stack__interface">
+          <div className="hero-stack__media" aria-hidden="true">
+            <span />
+          </div>
+          <div className="hero-stack__copy-lines" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <i />
+          </div>
+        </div>
+
+        <div className="hero-stack__metrics" aria-label="Website capabilities">
+          <div>
+            <Code2 aria-hidden="true" size={22} strokeWidth={1.5} />
+            <span>Build</span>
+          </div>
+          <div>
+            <Gauge aria-hidden="true" size={22} strokeWidth={1.5} />
+            <span>Speed</span>
+          </div>
+          <div>
+            <TrendingUp aria-hidden="true" size={22} strokeWidth={1.5} />
+            <span>Grow</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }

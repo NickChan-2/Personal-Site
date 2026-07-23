@@ -20,13 +20,12 @@ export function ProjectCard({
       tone="light"
       className={`project-card ${featured ? "project-card--featured" : ""}`}
     >
-      <Link
-        href={`/work/${project.slug}`}
-        className="project-card__visual-link"
-        aria-label={`View ${project.shortTitle} case study`}
-      >
+      {/* The title and explicit case-study link provide the navigation. Keeping
+          the visual non-interactive avoids giving its mock-interface text an
+          excessively long link name for assistive technology. */}
+      <div className="project-card__visual-link">
         <ProjectVisual variant={project.accent} compact={!featured} />
-      </Link>
+      </div>
 
       <div className="project-card__content">
         <div className="project-card__meta">

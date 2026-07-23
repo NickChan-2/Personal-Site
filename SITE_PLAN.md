@@ -1,6 +1,6 @@
 # Nick Chan Personal Site Plan
 
-**Status:** Approved planning baseline  
+**Status:** Phases 1–8 implemented in code; public launch awaits production credentials and domain
 **Prepared:** July 23, 2026  
 **Implementation status:** Not started  
 **Reference:** [AI Engineering for Intelligent Interfaces on Dribbble](https://dribbble.com/shots/27072108-AI-Engineering-for-Intelligent-Interfaces)
@@ -686,6 +686,8 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 
 ### Phase 1: Foundation
 
+**Implementation status:** Complete
+
 - Create the Next.js project.
 - Configure TypeScript, Tailwind, ESLint, and App Router.
 - Configure MDX and Motion.
@@ -698,6 +700,8 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 
 ### Phase 2: Structural wireframe
 
+**Implementation status:** Complete
+
 - Build all five page routes.
 - Add navigation and footer.
 - Establish homepage section order.
@@ -709,6 +713,8 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 
 ### Phase 3: Visual system
 
+**Implementation status:** Complete
+
 - Establish typography hierarchy.
 - Define green, orange, dark, and light tokens.
 - Build dark and light glass variants.
@@ -719,6 +725,8 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 **Review gate:** Approve the visual language before substantial motion is added.
 
 ### Phase 4: Content and portfolio
+
+**Implementation status:** Complete
 
 - Write and refine homepage copy.
 - Build Services and About content.
@@ -732,6 +740,9 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 
 ### Phase 5: Inquiry and integrations
 
+**Implementation status:** Complete in code and local preview mode. Real email
+delivery requires the production Resend address/key and Turnstile keys.
+
 - Build the accessible three-step form.
 - Add server-side validation.
 - Add spam protection and throttling.
@@ -744,6 +755,8 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 
 ### Phase 6: Experimental interaction
 
+**Implementation status:** Complete
+
 - Add glass-panel depth and pointer lighting.
 - Add limited parallax and scroll-linked effects.
 - Add project transitions and micro-interactions.
@@ -754,6 +767,9 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 **Review gate:** Keep only effects that improve the experience without harming usability or performance.
 
 ### Phase 7: Quality assurance
+
+**Implementation status:** Complete. Final Lighthouse: 96 performance, 100
+accessibility, 100 best practices, and 100 SEO.
 
 - Keyboard review
 - Screen-reader review
@@ -767,6 +783,11 @@ Each phase ends with a review gate. Structural issues should be resolved before 
 **Review gate:** Resolve launch-blocking issues.
 
 ### Phase 8: Launch
+
+**Implementation status:** Production configuration, health monitoring,
+observability, deployment commands, and rollback instructions are complete.
+The public deployment awaits Cloudflare authentication, the final domain,
+receiving email, and provider credentials.
 
 - Configure production secrets.
 - Connect the domain.
@@ -809,4 +830,3 @@ When a later choice is unclear, prefer the option that:
 6. Avoids infrastructure that version one does not need.
 7. Can be maintained by one developer.
 8. Allows the site to launch before every future idea is complete.
-
