@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+/* These registered angles come from the referenced liquid-glass control. */
+@property --angle-1 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -75deg;
+}
+
+@property --angle-2 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -45deg;
+}
+
 :root {
   /* Design tokens: changing one of these updates every class that uses it. */
   --ink-950: #06100c;
@@ -288,30 +301,286 @@ a {
 }
 
 .glass-panel {
+  --glass-border-width: clamp(2px, 0.1875em, 4px);
+  --glass-hover-time: 400ms;
+  --glass-hover-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  --glass-shadow-cutoff: clamp(28px, 2.4vw, 40px);
   position: relative;
-  border: 1px solid;
+  z-index: 2;
+  isolation: isolate;
   border-radius: var(--radius-md);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(22px);
+  background: transparent;
+  overflow: visible;
+  transition: all var(--glass-hover-time) var(--glass-hover-ease);
+}
+
+/* The CodePen keeps its shadow in an oversized sibling so the blurred rim is
+   never clipped by the glass surface. */
+.glass-panel__shadow {
+  position: absolute;
+  z-index: 0;
+  top: calc(0px - var(--glass-shadow-cutoff) / 2);
+  left: calc(0px - var(--glass-shadow-cutoff) / 2);
+  width: calc(100% + var(--glass-shadow-cutoff));
+  height: calc(100% + var(--glass-shadow-cutoff));
+  border-radius: inherit;
+  overflow: visible;
+  pointer-events: none;
+  filter: blur(clamp(2px, 0.125em, 12px));
+  transition: filter var(--glass-hover-time) var(--glass-hover-ease);
+}
+
+.glass-panel__shadow::after {
+  position: absolute;
+  z-index: 0;
+  top: calc(var(--glass-shadow-cutoff) - 8px);
+  left: calc(var(--glass-shadow-cutoff) - 14px);
+  width: calc(100% - var(--glass-shadow-cutoff) - 4px);
+  height: calc(100% - var(--glass-shadow-cutoff) - 4px);
+  padding: 2px;
+  box-sizing: border-box;
+  content: "";
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+  border-radius: inherit;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: none;
+  transition: all var(--glass-hover-time) var(--glass-hover-ease);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* This is the actual CodePen material: translucent diagonal fill, five-part
+   inset/outset shadow stack, and a very small backdrop blur. The thick bright
+   bottom rim plus inner glow ring is what sells the "wet" gloss. */
+.glass-panel__surface {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  background: linear-gradient(
+    -75deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.05)
+  );
+  border-radius: inherit;
+  box-shadow:
+    inset 0 4px 4px rgba(0, 0, 0, 0.06),
+    inset 0 -5px 6px rgba(255, 255, 255, 0.55),
+    0 8px 4px -4px rgba(0, 0, 0, 0.25),
+    0 0 4px 8px inset rgba(255, 255, 255, 0.22),
+    0 0 0 0 rgba(255, 255, 255, 1);
+  overflow: clip;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(clamp(2px, 0.125em, 4px)) saturate(140%)
+    brightness(1.3);
+  backdrop-filter: blur(clamp(2px, 0.125em, 4px)) saturate(140%)
+    brightness(1.3);
+  transition: all var(--glass-hover-time) var(--glass-hover-ease);
+}
+
+/* The CodePen's moving specular sweep: a narrow angled white band blended
+   with `screen`, oversized so only a sliver crosses the panel at rest and
+   glides further across on hover. */
+.glass-panel__surface::before {
+  position: absolute;
+  z-index: 1;
+  inset: calc(var(--glass-border-width) / 2);
+  content: "";
+  background:
+    linear-gradient(
+      var(--angle-2),
+      rgba(255, 255, 255, 0) 42%,
+      rgba(255, 255, 255, 0.07) 45%,
+      rgba(255, 255, 255, 0.32) 47% 48%,
+      rgba(255, 255, 255, 0.07) 51%,
+      rgba(255, 255, 255, 0) 54%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.02) 30%,
+      rgba(255, 255, 255, 0) 55%
+    );
+  background-repeat: no-repeat;
+  background-size:
+    200% 200%,
+    100% 100%;
+  background-position:
+    0% 50%,
+    0% 0%;
+  border-radius: inherit;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition:
+    background-position calc(var(--glass-hover-time) * 1.25)
+      var(--glass-hover-ease),
+    --angle-2 calc(var(--glass-hover-time) * 1.25) var(--glass-hover-ease);
+}
+
+/* Exact masked conic outline from the referenced implementation. */
+.glass-panel__surface::after {
+  position: absolute;
+  z-index: 2;
+  top: calc(0px - var(--glass-border-width) / 2);
+  left: calc(0px - var(--glass-border-width) / 2);
+  width: calc(100% + var(--glass-border-width));
+  height: calc(100% + var(--glass-border-width));
+  padding: var(--glass-border-width);
+  box-sizing: border-box;
+  content: "";
+  background:
+    conic-gradient(
+      from var(--angle-1) at 50% 50%,
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0) 5% 40%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0) 60% 95%,
+      rgba(0, 0, 0, 0.5)
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 calc(var(--glass-border-width) / 2)
+    rgba(255, 255, 255, 0.5);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition:
+    all var(--glass-hover-time) var(--glass-hover-ease),
+    --angle-1 500ms ease;
+}
+
+.glass-panel:hover .glass-panel__surface {
+  box-shadow:
+    inset 0 3px 3px rgba(0, 0, 0, 0.05),
+    inset 0 -3px 3px rgba(255, 255, 255, 0.5),
+    0 4px 1px -2px rgba(0, 0, 0, 0.25),
+    0 0 1px 3px inset rgba(255, 255, 255, 0.5),
+    0 0 0 0 rgba(255, 255, 255, 1);
+  -webkit-backdrop-filter: blur(0.01em) saturate(140%) brightness(1.3);
+  backdrop-filter: blur(0.01em) saturate(140%) brightness(1.3);
+}
+
+.glass-panel:hover .glass-panel__surface::before {
+  --angle-2: -15deg;
+  background-position:
+    25% 50%,
+    0% 0%;
+}
+
+.glass-panel:hover .glass-panel__surface::after {
+  --angle-1: -125deg;
+}
+
+.glass-panel:hover .glass-panel__shadow {
+  filter: blur(clamp(2px, 0.0625em, 6px));
+}
+
+.glass-panel:hover .glass-panel__shadow::after {
+  top: calc(var(--glass-shadow-cutoff) - 14px);
+}
+
+.glass-panel
+  > :not(.glass-panel__shadow):not(.glass-panel__surface) {
+  position: relative;
+  z-index: 3;
 }
 
 .glass-panel--dark {
   color: var(--white);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.095), rgba(255, 255, 255, 0.025)),
-    rgba(8, 21, 15, 0.48);
-  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .glass-panel--light {
   color: var(--slate-dark);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.45)),
-    rgba(255, 255, 255, 0.42);
-  border-color: rgba(11, 27, 19, 0.11);
+}
+
+/* On light backgrounds the dark-tone recipe blows out: no brightness boost,
+   softer rims, and a much lighter under-shadow ring that would otherwise show
+   through the clearer glass. */
+.glass-panel--light .glass-panel__surface {
+  background: linear-gradient(
+    -75deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.12)
+  );
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.86),
-    var(--shadow-light);
+    inset 0 3px 3px rgba(11, 27, 19, 0.05),
+    inset 0 -4px 5px rgba(255, 255, 255, 0.8),
+    0 6px 4px -3px rgba(35, 48, 40, 0.16),
+    0 0 3px 6px inset rgba(255, 255, 255, 0.5),
+    0 0 0 0 rgba(255, 255, 255, 1);
+  -webkit-backdrop-filter: blur(clamp(2px, 0.125em, 4px)) saturate(115%)
+    brightness(1.04);
+  backdrop-filter: blur(clamp(2px, 0.125em, 4px)) saturate(115%)
+    brightness(1.04);
+}
+
+.glass-panel--light:hover .glass-panel__surface {
+  -webkit-backdrop-filter: blur(0.01em) saturate(115%) brightness(1.04);
+  backdrop-filter: blur(0.01em) saturate(115%) brightness(1.04);
+}
+
+.glass-panel--light .glass-panel__surface::before {
+  background:
+    linear-gradient(
+      var(--angle-2),
+      rgba(255, 255, 255, 0) 42%,
+      rgba(255, 255, 255, 0.1) 45%,
+      rgba(255, 255, 255, 0.45) 47% 48%,
+      rgba(255, 255, 255, 0.1) 51%,
+      rgba(255, 255, 255, 0) 54%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.1) 30%,
+      rgba(255, 255, 255, 0) 55%
+    );
+}
+
+/* The pen's half-black conic segments suit a small pill; stretched along a
+   wide light panel they smear into a dark streak, so fade them right down. */
+.glass-panel--light .glass-panel__surface::after {
+  background:
+    conic-gradient(
+      from var(--angle-1) at 50% 50%,
+      rgba(35, 48, 40, 0.28),
+      rgba(35, 48, 40, 0) 5% 40%,
+      rgba(35, 48, 40, 0.28) 50%,
+      rgba(35, 48, 40, 0) 60% 95%,
+      rgba(35, 48, 40, 0.28)
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7));
+  box-shadow: inset 0 0 0 calc(var(--glass-border-width) / 2)
+    rgba(255, 255, 255, 0.7);
+}
+
+.glass-panel--light .glass-panel__shadow::after {
+  background: linear-gradient(
+    180deg,
+    rgba(35, 48, 40, 0.16),
+    rgba(35, 48, 40, 0.07)
+  );
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .glass-panel__surface::after {
+    --angle-1: -75deg;
+  }
 }
 
 .button-link {
@@ -562,29 +831,50 @@ a {
 .hero-stack {
   position: relative;
   min-height: 540px;
+  isolation: isolate;
   perspective: 1000px;
 }
 
 .hero-stack::before {
   position: absolute;
-  inset: 14% 9% 15%;
+  z-index: -2;
+  inset: 13% 6% 12% 9%;
   content: "";
-  background: rgba(54, 202, 121, 0.16);
-  border-radius: 50%;
-  filter: blur(80px);
+  background:
+    radial-gradient(
+      circle at 22% 18%,
+      rgba(110, 231, 162, 0.95),
+      transparent 37%
+    ),
+    radial-gradient(
+      circle at 82% 78%,
+      rgba(255, 138, 61, 0.82),
+      transparent 35%
+    ),
+    linear-gradient(145deg, #16472d, #18271e 52%, #512918);
+  border-radius: 34% 66% 43% 57% / 48% 40% 60% 52%;
+  filter: blur(7px);
+  opacity: 0.64;
+  transform: rotate(-9deg);
+}
+
+.hero-stack::after {
+  position: absolute;
+  z-index: -1;
+  inset: 19% 2% 18% 14%;
+  content: "";
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 35px 35px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 30% 70% 56% 44% / 57% 42% 58% 43%;
+  opacity: 0.4;
+  transform: rotate(8deg);
 }
 
 .hero-stack .glass-panel {
   position: absolute;
-  overflow: hidden;
-}
-
-.hero-stack .glass-panel::after {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background: linear-gradient(122deg, rgba(255, 255, 255, 0.1), transparent 38%);
-  pointer-events: none;
 }
 
 .hero-stack__service-card {
@@ -630,9 +920,10 @@ a {
   min-height: 43px;
   padding: 0 12px;
   color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   font-size: 0.72rem;
   font-weight: 700;
 }
@@ -1112,6 +1403,33 @@ a {
 
 .services-section {
   padding: 132px 0;
+  isolation: isolate;
+}
+
+/* The color fields sit behind the translucent cards, giving the blur something
+   visible to refract instead of placing glass over a flat background. */
+.services-section::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(
+      circle at 18% 58%,
+      rgba(110, 231, 162, 0.2),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 82% 72%,
+      rgba(255, 138, 61, 0.14),
+      transparent 23%
+    );
+  pointer-events: none;
+}
+
+.services-section > .site-shell {
+  position: relative;
+  z-index: 1;
 }
 
 .service-card-grid {
@@ -1483,6 +1801,29 @@ a {
 
 .managed-care-section {
   padding: 132px 0;
+  isolation: isolate;
+}
+
+.managed-care-section::before {
+  position: absolute;
+  z-index: 0;
+  top: 22%;
+  right: 3%;
+  width: 520px;
+  height: 520px;
+  content: "";
+  background:
+    radial-gradient(circle at 35% 35%, rgba(110, 231, 162, 0.34), transparent 38%),
+    radial-gradient(circle at 68% 68%, rgba(255, 138, 61, 0.24), transparent 36%);
+  border-radius: 38% 62% 57% 43%;
+  filter: blur(32px);
+  opacity: 0.7;
+  transform: rotate(-12deg);
+}
+
+.managed-care-section > .site-shell {
+  position: relative;
+  z-index: 1;
 }
 
 .managed-care-grid {
@@ -1634,10 +1975,45 @@ a {
 }
 
 .about-hero__inner {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(350px, 0.58fr);
   align-items: center;
   gap: 90px;
+  isolation: isolate;
+}
+
+/* A second hue behind the card gives transparent glass visible color and
+   luminance variation to refract; a flat green field reads as tinted plastic. */
+.about-hero__inner::after {
+  position: absolute;
+  z-index: 0;
+  top: 16%;
+  right: -5%;
+  width: 440px;
+  height: 470px;
+  content: "";
+  background:
+    radial-gradient(
+      circle at 72% 70%,
+      rgba(255, 138, 61, 0.36),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 28% 24%,
+      rgba(110, 231, 162, 0.38),
+      transparent 42%
+    );
+  border-radius: 42% 58% 64% 36% / 46% 38% 62% 54%;
+  filter: blur(30px);
+  opacity: 0.7;
+  pointer-events: none;
+  transform: rotate(-11deg);
+}
+
+.about-hero__inner > * {
+  position: relative;
+  z-index: 1;
 }
 
 .about-hero__copy h1 {

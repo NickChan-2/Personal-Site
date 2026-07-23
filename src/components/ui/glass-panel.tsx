@@ -24,6 +24,11 @@ export function GlassPanel<T extends ElementType = "div">({
       className={`glass-panel glass-panel--${tone} ${className}`}
       {...props}
     >
+      {/* These two layers mirror the CodePen's separate glass surface and
+          oversized shadow container. They stay decorative and hidden from
+          assistive technology. */}
+      <span aria-hidden="true" className="glass-panel__shadow" />
+      <span aria-hidden="true" className="glass-panel__surface" />
       {children}
     </Component>
   );
