@@ -47,4 +47,3 @@ analytics, advanced interaction, final QA, and deployment are later phases.
 
 See [`SITE_PLAN.md`](./SITE_PLAN.md) for the approved product and implementation
 plan.
-# Personal-Site
