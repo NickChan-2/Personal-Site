@@ -366,9 +366,9 @@ a {
   display: block;
   background: linear-gradient(
     -75deg,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.18),
-    rgba(255, 255, 255, 0.05)
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0.04)
   );
   border-radius: inherit;
   box-shadow:
@@ -398,15 +398,15 @@ a {
     linear-gradient(
       var(--angle-2),
       rgba(255, 255, 255, 0) 42%,
-      rgba(255, 255, 255, 0.07) 45%,
-      rgba(255, 255, 255, 0.32) 47% 48%,
-      rgba(255, 255, 255, 0.07) 51%,
+      rgba(255, 255, 255, 0.04) 45%,
+      rgba(255, 255, 255, 0.2) 47% 48%,
+      rgba(255, 255, 255, 0.04) 51%,
       rgba(255, 255, 255, 0) 54%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.02) 30%,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.01) 30%,
       rgba(255, 255, 255, 0) 55%
     );
   background-repeat: no-repeat;
@@ -523,10 +523,11 @@ a {
     0 6px 4px -3px rgba(35, 48, 40, 0.16),
     0 0 3px 6px inset rgba(255, 255, 255, 0.5),
     0 0 0 0 rgba(255, 255, 255, 1);
-  -webkit-backdrop-filter: blur(clamp(2px, 0.125em, 4px)) saturate(115%)
-    brightness(1.04);
-  backdrop-filter: blur(clamp(2px, 0.125em, 4px)) saturate(115%)
-    brightness(1.04);
+  /* Light panels frost harder than the dark ones: the visible difference
+     between the sharp glow outside the card and its diffused version through
+     the surface is what sells the glass on a pale background. */
+  -webkit-backdrop-filter: blur(18px) saturate(150%) brightness(1.04);
+  backdrop-filter: blur(18px) saturate(150%) brightness(1.04);
 }
 
 .glass-panel--light:hover .glass-panel__surface {
@@ -539,15 +540,15 @@ a {
     linear-gradient(
       var(--angle-2),
       rgba(255, 255, 255, 0) 42%,
-      rgba(255, 255, 255, 0.1) 45%,
-      rgba(255, 255, 255, 0.45) 47% 48%,
-      rgba(255, 255, 255, 0.1) 51%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.3) 47% 48%,
+      rgba(255, 255, 255, 0.06) 51%,
       rgba(255, 255, 255, 0) 54%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.1) 30%,
+      rgba(255, 255, 255, 0.25),
+      rgba(255, 255, 255, 0.05) 30%,
       rgba(255, 255, 255, 0) 55%
     );
 }
@@ -1027,6 +1028,40 @@ a {
 .work-section,
 .work-page-section {
   padding: 132px 0;
+  overflow: hidden;
+}
+
+/* Glass only reads when something sits behind it: these soft accent glows
+   give the translucent cards color to pick up, like the glows on the dark
+   sections. */
+.work-section::before,
+.work-page-section::before {
+  position: absolute;
+  z-index: 0;
+  top: 24%;
+  right: 4%;
+  width: 540px;
+  height: 540px;
+  content: "";
+  background: var(--green-strong);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.2;
+}
+
+.work-section::after,
+.work-page-section::after {
+  position: absolute;
+  z-index: 0;
+  bottom: 6%;
+  right: 26%;
+  width: 500px;
+  height: 500px;
+  content: "";
+  background: var(--orange);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
 }
 
 .project-list {
@@ -1035,14 +1070,13 @@ a {
   margin-top: 70px;
 }
 
+/* The card is a light-tone GlassPanel; the glass layers supply the fill,
+   border, and shadow. Clipping lives on the visual link (not the card) so the
+   oversized glass shadow sibling is never cut off. */
 .project-card {
   display: grid;
   grid-template-columns: minmax(320px, 0.83fr) minmax(0, 1fr);
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.46);
-  border: 1px solid var(--line-light);
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(25, 42, 32, 0.045);
 }
 
 .project-card--featured {
@@ -1052,6 +1086,8 @@ a {
 .project-card__visual-link {
   display: block;
   min-height: 440px;
+  overflow: hidden;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 }
 
 .project-card--featured .project-card__visual-link {
@@ -2959,6 +2995,8 @@ a {
   .project-card__visual-link,
   .project-card--featured .project-card__visual-link {
     min-height: 480px;
+    /* Stacked layout: the visual sits on top, so round the top corners. */
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .service-card-grid,

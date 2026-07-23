@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ProjectVisual } from "@/components/projects/project-visual";
+import { GlassPanel } from "@/components/ui/glass-panel";
 import type { Project } from "@/lib/projects";
 
 type ProjectCardProps = {
@@ -14,7 +15,11 @@ export function ProjectCard({
   featured = false,
 }: ProjectCardProps) {
   return (
-    <article className={`project-card ${featured ? "project-card--featured" : ""}`}>
+    <GlassPanel
+      as="article"
+      tone="light"
+      className={`project-card ${featured ? "project-card--featured" : ""}`}
+    >
       <Link
         href={`/work/${project.slug}`}
         className="project-card__visual-link"
@@ -48,6 +53,6 @@ export function ProjectCard({
           </Link>
         </div>
       </div>
-    </article>
+    </GlassPanel>
   );
 }
